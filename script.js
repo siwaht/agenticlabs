@@ -17,9 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mobile Menu Toggle
     mobileBtn.addEventListener('click', () => {
+        const isOpen = navLinks.classList.contains('mobile-active');
+
         mobileBtn.classList.toggle('active');
         navLinks.classList.toggle('mobile-active');
-        document.body.style.overflow = navLinks.classList.contains('mobile-active') ? 'hidden' : 'auto';
+
+        if (!isOpen) {
+            // Opening: add reveal-items class with a tiny delay
+            setTimeout(() => {
+                navLinks.classList.add('reveal-items');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Closing
+            navLinks.classList.remove('reveal-items');
+            document.body.style.overflow = 'auto';
+        }
     });
 
     // Close Mobile Menu on Click
@@ -51,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rootMargin: "0px 0px -50px 0px"
     };
 
-    const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+    const revealOnScroll = new IntersectionObserver(function (entries, observer) {
         entries.forEach(entry => {
             if (!entry.isIntersecting) {
                 return;
@@ -65,6 +78,20 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(el => {
         revealOnScroll.observe(el);
     });
+
+    // --- 3. Hero Content Staggered Animation --- 
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+        const children = heroContent.children;
+        Array.from(children).forEach((child, index) => {
+            child.style.transitionDelay = `${index * 0.15}s`;
+        });
+
+        // Trigger reveal for hero content explicitly if needed
+        setTimeout(() => {
+            heroContent.classList.add('active');
+        }, 100);
+    }
 
     /* --- 3. FAQ Accordion --- */
     const faqQuestions = document.querySelectorAll('.faq-question');
@@ -110,24 +137,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     leadForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         // Basic Client-Side Validation is handled by HTML5 'required' attributes
         // Simulate network request
         submitBtn.classList.add('loading');
-        
+
         setTimeout(() => {
             submitBtn.classList.remove('loading');
-            
+
             // Hide all children of form EXCEPT the success message
             Array.from(leadForm.children).forEach(child => {
-                if(child.id !== 'form-success') {
+                if (child.id !== 'form-success') {
                     child.style.display = 'none';
                 }
             });
-            
+
             // Show Success Message
             successMsg.classList.remove('hidden');
-            
+
         }, 1500); // Simulate 1.5s loading
     });
 
