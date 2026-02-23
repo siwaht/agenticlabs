@@ -31,6 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Also close mobile menu when CTA is clicked
+    const navCta = document.getElementById('nav-cta');
+    if (navCta) {
+        navCta.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileBtn.classList.remove('active');
+                navLinks.classList.remove('mobile-active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    }
+
     /* --- 2. Scroll Reveal Animations --- */
     const revealElements = document.querySelectorAll('.reveal');
 

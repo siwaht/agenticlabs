@@ -55,6 +55,17 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Subtle noise texture overlay */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+}
+
 h1,
 h2,
 h3,
@@ -631,6 +642,24 @@ video {
 
 .service-card {
     padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.service-card:hover::before {
+    opacity: 1;
 }
 
 .service-icon {
@@ -704,6 +733,11 @@ video {
 }
 
 /* Portfolio */
+.glass-background {
+    background: rgba(10, 10, 12, 0.6);
+    backdrop-filter: blur(10px);
+}
+
 .portfolio {
     padding: 8rem 0;
 }
@@ -794,7 +828,7 @@ video {
     background: var(--accent-teal);
     margin: 0 3px;
     border-radius: 3px;
-    animation: waveAnim 1.2s infinite ease-in-out alternate;
+    animation: audioWaveAnim 1.2s infinite ease-in-out alternate;
 }
 
 .audio-waves span:nth-child(2) {
@@ -810,6 +844,15 @@ video {
 .audio-waves span:nth-child(4) {
     animation-delay: 0.6s;
     height: 40px;
+}
+
+@keyframes audioWaveAnim {
+    0% {
+        transform: scaleY(0.4);
+    }
+    100% {
+        transform: scaleY(1);
+    }
 }
 
 .portfolio-info {
@@ -899,6 +942,7 @@ video {
     height: 100%;
     background: var(--gradient-primary);
     border-radius: 4px;
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .stat-bar .fill.negative {
@@ -1034,6 +1078,7 @@ video {
 .contact-info h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
+    letter-spacing: -0.02em;
 }
 
 .contact-info p {
@@ -1046,6 +1091,9 @@ video {
     margin-bottom: 1rem;
     font-weight: 500;
     color: #e4e4e7;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .contact-form-container {
@@ -1059,6 +1107,10 @@ video {
 .form-row {
     display: flex;
     gap: 1rem;
+    margin-bottom: 0;
+}
+
+.form-row .input-group {
     margin-bottom: 1.5rem;
 }
 
@@ -1314,6 +1366,15 @@ video {
         font-size: 1.5rem;
     }
 
+    .nav-links.mobile-active + .nav-cta {
+        display: flex;
+        position: fixed;
+        bottom: 4rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1001;
+    }
+
     .hero-container,
     .use-case-flex {
         grid-template-columns: 1fr;
@@ -1339,6 +1400,18 @@ video {
         gap: 3rem;
     }
 
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonial-grid {
+        grid-template-columns: 1fr;
+    }
+
     .form-row {
         flex-direction: column;
         gap: 0;
@@ -1357,4 +1430,55 @@ video {
         flex-direction: column;
         gap: 1rem;
     }
+}
+
+
+/* Focus visible for accessibility */
+:focus-visible {
+    outline: 2px solid var(--accent-teal);
+    outline-offset: 2px;
+}
+
+/* Social link hover effect */
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-glass);
+    font-size: 0.75rem;
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    background: rgba(0, 128, 128, 0.15);
+    border-color: var(--accent-teal);
+    color: var(--accent-teal);
+}
+
+/* Smooth selection color */
+::selection {
+    background: rgba(0, 128, 128, 0.3);
+    color: #fff;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
