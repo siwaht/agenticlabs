@@ -88,7 +88,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* --- 4. Contact Form Simulation --- */
+    /* --- 4. Theme Toggle --- */
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+
+    themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+    });
+
+    /* --- 5. Contact Form Simulation --- */
     const leadForm = document.getElementById('lead-form');
     const submitBtn = leadForm.querySelector('.submit-btn');
     const successMsg = document.getElementById('form-success');
