@@ -263,7 +263,7 @@ video {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: gradientShift 15s ease-in-out infinite;
+    animation: gradientShift 60s ease-in-out infinite;
     position: relative;
     display: inline-block;
 }
