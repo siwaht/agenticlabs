@@ -211,4 +211,129 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sections.forEach(section => navHighlight.observe(section));
 
+    /* --- 10. Neural Network Canvas Animation --- */
+    const canvas = document.getElementById('neural-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        const connectionDistance = 120;
+
+        function resizeCanvas() {
+            const parent = canvas.parentElement;
+            width = parent.clientWidth;
+            height = parent.clientHeight;
+            canvas.width = width * window.devicePixelRatio;
+            canvas.height = height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.radius = Math.random() * 2 + 1.5;
+                this.baseAlpha = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Repel from boundaries gently to stay loosely within the circle
+                const dx = this.x - width / 2;
+                const dy = this.y - height / 2;
+                const distFromCenter = Math.sqrt(dx * dx + dy * dy);
+                const maxRadius = (width / 2) - this.radius;
+
+                if (distFromCenter > maxRadius) {
+                    this.vx -= dx * 0.0015;
+                    this.vy -= dy * 0.0015;
+                }
+
+                // occasional minor random boosts to speed for natural look
+                if (Math.random() < 0.01) {
+                    this.vx += (Math.random() - 0.5) * 0.5;
+                    this.vy += (Math.random() - 0.5) * 0.5;
+                }
+
+                // Cap speed
+                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (speed > 2) {
+                    this.vx = (this.vx / speed) * 2;
+                    this.vy = (this.vy / speed) * 2;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(14, 165, 165, ${this.baseAlpha})`;
+                ctx.fill();
+
+                // slight glow for particles
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'rgba(14, 165, 165, 0.8)';
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const isMobile = window.innerWidth < 768;
+            const numParticles = isMobile ? 35 : 70;
+
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function drawConnections() {
+            ctx.shadowBlur = 0; // disable shadow for lines to save performance
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        const opacity = (1 - (distance / connectionDistance)) * 0.4;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(14, 165, 165, ${opacity})`;
+                        ctx.lineWidth = 1.2;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            drawConnections();
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        // Initial setup
+        setTimeout(() => {
+            resizeCanvas();
+            initParticles();
+            animateCanvas();
+        }, 100);
+    }
+
 });
