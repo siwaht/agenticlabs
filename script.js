@@ -336,4 +336,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     }
 
+    /* --- 11. Legal Modals Logic --- */
+    const modalLinks = document.querySelectorAll('.legal-link');
+    const closeBtns = document.querySelectorAll('.close-modal');
+
+    modalLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const modalId = `modal-${link.getAttribute('data-modal')}`;
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modal = btn.closest('.modal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        });
+    });
+
+    // Close on outside click
+    window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) {
+            e.target.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
 });

@@ -15,6 +15,7 @@
         rel="stylesheet">
     <!-- Main CSS -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modal-styles.css">
 </head>
 
 <body>
@@ -385,9 +386,9 @@
                                     <input type="text" id="fullName" name="fullName" required placeholder="John Doe">
                                 </div>
                                 <div class="input-group">
-                                    <label for="workEmail">Work Email</label>
-                                    <input type="email" id="workEmail" name="workEmail" required
-                                        placeholder="john@company.com">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" required
+                                        placeholder="hello@company.com">
                                 </div>
                             </div>
 
@@ -412,13 +413,7 @@
 
                             <div class="input-group">
                                 <label for="budget">Project Budget</label>
-                                <select id="budget" name="budget" required>
-                                    <option value="" disabled selected>Select an option</option>
-                                    <option value="5k-10k">$5k - $10k</option>
-                                    <option value="10k-25k">$10k - $25k</option>
-                                    <option value="25k-50k">$25k - $50k</option>
-                                    <option value="50k+">$50k+</option>
-                                </select>
+                                <input type="text" id="budget" name="budget" required placeholder="e.g. $10k - $25k">
                             </div>
 
                             <div class="input-group">
@@ -480,8 +475,8 @@
                 <div class="footer-links">
                     <h4>Legal</h4>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#" class="legal-link" data-modal="privacy">Privacy Policy</a></li>
+                        <li><a href="#" class="legal-link" data-modal="terms">Terms of Service</a></li>
                         <li><a href="#">Security</a></li>
                     </ul>
                 </div>
@@ -490,15 +485,104 @@
             <div class="footer-bottom">
                 <p>&copy; 2026 Agenticoslabs. All rights reserved.</p>
                 <div class="social-links">
-                    <a href="#" aria-label="LinkedIn">IN</a>
-                    <a href="#" aria-label="Twitter">TW</a>
-                    <a href="#" aria-label="Instagram">IG</a>
+                    <a href="#" aria-label="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                            </path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Twitter">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
+
+    <!-- Modals -->
+    <div id="modal-privacy" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>Privacy <span class="gradient-text">Policy</span></h2>
+            </div>
+            <div class="modal-body">
+                <h3>1. Introduction</h3>
+                <p>At Agenticoslabs, protecting your company's data and your customers' personal information is our
+                    highest priority. This policy outlines how we collect, process, and secure data when providing
+                    enterprise AI solutions.</p>
+
+                <h3>2. Data Collection and Usage</h3>
+                <p>We process data solely for the purpose of operating and improving the custom AI agents deployed for
+                    your business. This includes chat logs, voice transcripts, and user interaction metadata. We do not
+                    sell this data to third parties.</p>
+
+                <h3>3. Model Training & Isolation</h3>
+                <p>Unlike public foundational models, the proprietary models we build for your enterprise are trained
+                    exclusively on your provided data. Interaction data is never pooled or used to train models for
+                    other clients.</p>
+
+                <h3>4. Security Standards</h3>
+                <p>We adhere to SOC 2 Type II compliance standards. All data in transit and at rest is encrypted using
+                    AES-256. Database instances are isolated per client within private VPCs.</p>
+
+                <h3>5. Data Retention & Deletion</h3>
+                <p>Interaction logs are retained according to your specific organizational requirements (default is 90
+                    days). You maintain the right to instantly purge any stored user data upon request.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-terms" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>Terms of <span class="gradient-text">Service</span></h2>
+            </div>
+            <div class="modal-body">
+                <h3>1. Service Agreement</h3>
+                <p>By engaging Agenticoslabs to deploy autonomous chat agents, voice avatars, or generated media, you
+                    agree to these enterprise terms of service. Our services are provided strictly for lawful business
+                    automation purposes.</p>
+
+                <h3>2. Intellectual Property</h3>
+                <p>You retain full ownership of all training data, brand assets, and customer information provided to
+                    us. The underlying AI architectures, proprietary frameworks, and orchestration logic remain the
+                    intellectual property of Agenticoslabs.</p>
+
+                <h3>3. Output Liability & Guardrails</h3>
+                <p>While we implement rigorous semantic guardrails and human-in-the-loop fallback systems, AI outputs
+                    are probabilistic. Agenticoslabs is not liable for indirect damages resulting from unexpected agent
+                    responses. It is the client's responsibility to review agent performance regularly.</p>
+
+                <h3>4. Uptime & SLAs</h3>
+                <p>We guarantee 99.9% uptime for deployed agents under our Enterprise SLA. Maintenance windows will be
+                    scheduled during off-peak hours with minimum 48-hour notice.</p>
+
+                <h3>5. Termination</h3>
+                <p>Contracts may be terminated with 30 days written notice. Upon termination, all client-specific model
+                    weights and accrued interaction data will be permanently destroyed within 7 business days.</p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
