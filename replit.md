@@ -11,8 +11,8 @@ A static landing page for Agenticoslabs, an AI agency offering chat agents, voic
   - `script.js` - Interactive behavior (navbar, FAQ accordion, form, scroll animations)
 
 ## How to Run
-- Served via Python's built-in HTTP server on port 5000
-- Command: `python -m http.server 5000 --bind 0.0.0.0`
+- Served via Node.js `serve` package on port 5000
+- Command: `npx serve -l 5000 -s .`
 
 ## Deployment
 - Configured as a static site deployment with the root directory as the public directory.
