@@ -24,13 +24,12 @@
 
 .modal-content {
     background: var(--bg-surface);
-    margin: 15% auto;
-    padding: 2.5rem 3rem;
-    width: 90%;
-    max-width: 800px;
+    margin: auto;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    width: min(90%, 800px);
     border-radius: 24px;
     position: relative;
-    max-height: 80vh;
+    max-height: 85vh;
     overflow-y: auto;
     transform: translateY(20px);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -43,13 +42,20 @@
 .close-modal {
     position: absolute;
     top: 1.5rem;
-    right: 2rem;
+    right: 1.5rem;
     color: var(--text-secondary);
     font-size: 2rem;
     font-weight: 300;
     cursor: pointer;
     transition: color 0.2s ease;
     line-height: 1;
+    background: none;
+    border: none;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close-modal:hover {

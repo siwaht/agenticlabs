@@ -1,18 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="https://schema.org/Organization">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flotlabs | The Era of the Autonomous Enterprise</title>
+    <title>Flotlabs | AI Agents, Voice Assistants & Digital Avatars for Enterprise</title>
     <meta name="description"
-        content="AI agency serving businesses with advanced chat agents, voice avatars, and generated media for unparalleled digital growth.">
+        content="Flotlabs deploys AI chat agents, voice assistants, and digital avatars that automate enterprise operations, cut costs by 40%, and scale infinitely. Book a free consultation.">
+    <meta name="keywords" content="AI agents, voice AI, digital avatars, enterprise automation, AI chat agents, conversational AI, AI media generation">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Flotlabs">
+    <link rel="canonical" href="https://flotlabs.com/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Flotlabs | The Era of the Autonomous Enterprise">
+    <meta property="og:description" content="Deploy AI agents, voice assistants, and digital avatars that scale your operations infinitely and cut costs by 40%.">
+    <meta property="og:url" content="https://flotlabs.com/">
+    <meta property="og:site_name" content="Flotlabs">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Flotlabs | The Era of the Autonomous Enterprise">
+    <meta name="twitter:description" content="Deploy AI agents, voice assistants, and digital avatars that scale your operations infinitely and cut costs by 40%.">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Flotlabs",
+        "url": "https://flotlabs.com",
+        "description": "AI agency deploying chat agents, voice assistants, and digital avatars for enterprise automation.",
+        "foundingDate": "2024",
+        "areaServed": "Worldwide",
+        "serviceType": ["AI Chat Agents", "Voice AI", "Interactive AI Avatars", "AI Media Generation"],
+        "sameAs": []
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Will the AI sound robotic to my customers?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. We utilize state-of-the-art text-to-speech models and LLMs that include filler words, natural breathing, and dynamic intonation. In blind tests, 94% of users cannot distinguish our voice agents from human operators."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How secure is my company data?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Security is paramount. All models are deployed in private cloud environments. Your data is never used to train foundational public models, and we adhere to SOC2 compliance standards."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What if the AI makes a mistake?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We build rigorous guardrails and logic constraints. Additionally, we implement dynamic human-in-the-loop routing, transferring the conversation instantly to a human agent if the AI confidence score drops below a safe threshold."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How long does integration take?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Depending on complexity, standard chat agents take 2-3 weeks, while complex voice and avatar integrations take 4-6 weeks to build, train, and test thoroughly."
+                }
+            }
+        ]
+    }
+    </script>
+
     <!-- Main CSS -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="modal-styles.css">
@@ -21,53 +93,55 @@
 <body>
 
     <!-- CSS Animated Background Gradient -->
-    <div class="bg-gradient-glow"></div>
+    <div class="bg-gradient-glow" aria-hidden="true"></div>
 
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="container nav-container">
-            <a href="#" class="logo">
-                <span class="logo-mark"></span>
-                <span class="logo-text">Flotlabs</span>
-            </a>
+    <header>
+        <nav class="navbar" id="navbar" aria-label="Main navigation">
+            <div class="container nav-container">
+                <a href="#" class="logo" aria-label="Flotlabs home">
+                    <span class="logo-mark" aria-hidden="true"></span>
+                    <span class="logo-text">Flotlabs</span>
+                </a>
 
-            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#portfolio">Demos</a></li>
-                <li><a href="#faq">FAQ</a></li>
-            </ul>
-
-            <div class="nav-cta" id="nav-cta">
-                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
-                    <span class="theme-icon-sun">☀</span>
-                    <span class="theme-icon-moon">☾</span>
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
-                <a href="#contact" class="btn btn-primary">Book Consultation</a>
+
+                <ul class="nav-links" id="nav-links" role="list">
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#portfolio">Demos</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+
+                <div class="nav-cta" id="nav-cta">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+                        <span class="theme-icon-sun" aria-hidden="true">☀</span>
+                        <span class="theme-icon-moon" aria-hidden="true">☾</span>
+                    </button>
+                    <a href="#contact" class="btn btn-primary">Book Consultation</a>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <main>
         <!-- Ambient Glowing Orbs -->
-        <div class="ambient-orbs">
+        <div class="ambient-orbs" aria-hidden="true">
             <div class="orb orb-1"></div>
             <div class="orb orb-2"></div>
             <div class="orb orb-3"></div>
         </div>
 
         <!-- Hero Section -->
-        <section class="hero" id="home">
+        <section class="hero" id="home" aria-labelledby="hero-heading">
             <div class="container hero-container">
                 <div class="hero-content reveal slide-up">
-                    <div class="badge">Enterprise AI Solutions</div>
-                    <h1 class="hero-title">The Era of the <span class="gradient-text">Autonomous Enterprise。</span></h1>
+                    <span class="badge">Enterprise AI Solutions</span>
+                    <h1 id="hero-heading" class="hero-title">The Era of the <span class="gradient-text">Autonomous Enterprise.</span></h1>
                     <p class="hero-subtitle">We deploy sophisticated AI agents, voice assistants, and immersive digital
                         avatars that scale your operations infinitely and cut operational costs by 40%.</p>
                     <div class="hero-actions">
@@ -75,7 +149,7 @@
                         <a href="#services" class="btn btn-secondary btn-lg">Explore Services</a>
                     </div>
                 </div>
-                <div class="hero-visual reveal fade-in">
+                <div class="hero-visual reveal fade-in" aria-hidden="true">
                     <div class="neural-network-mockup">
                         <canvas id="neural-canvas"></canvas>
                         <div class="nn-overlay-content">
@@ -90,7 +164,7 @@
         </section>
 
         <!-- Trust Bar -->
-        <section class="trust-bar reveal fade-in">
+        <section class="trust-bar reveal fade-in" aria-label="Key metrics">
             <div class="container trust-container">
                 <div class="trust-item">
                     <span class="trust-value">24/7</span>
@@ -112,126 +186,125 @@
         </section>
 
         <!-- Services Section -->
-        <section class="services" id="services">
+        <section class="services" id="services" aria-labelledby="services-heading">
             <div class="container">
                 <div class="section-header reveal slide-up">
-                    <h2>Our Core <span class="gradient-text">Capabilities</span></h2>
-                    <p>End-to-end AI automation and generative media specifically tailored for high-growth enterprises.
-                    </p>
+                    <h2 id="services-heading">Our Core <span class="gradient-text">Capabilities</span></h2>
+                    <p>End-to-end AI automation and generative media specifically tailored for high-growth enterprises.</p>
                 </div>
 
                 <div class="services-grid">
-                    <div class="service-card glass-panel reveal slide-up" style="transition-delay: 0.1s">
-                        <div class="service-icon">💬</div>
+                    <article class="service-card glass-panel reveal slide-up" style="transition-delay: 0.1s">
+                        <div class="service-icon" aria-hidden="true">💬</div>
                         <h3>Omnichannel Chat Agents</h3>
                         <p>Intelligent, reasoning AI chat agents deployed natively across WhatsApp, Telegram, Instagram,
                             and web. They qualify leads, resolve support tickets, and close sales autonomously.</p>
-                    </div>
+                    </article>
 
-                    <div class="service-card glass-panel reveal slide-up" style="transition-delay: 0.2s">
-                        <div class="service-icon">📞</div>
+                    <article class="service-card glass-panel reveal slide-up" style="transition-delay: 0.2s">
+                        <div class="service-icon" aria-hidden="true">📞</div>
                         <h3>Voice Calling AI</h3>
-                        <p>Human-like conversational voice agents that can handle thousands of inbound/outbound calls
+                        <p>Human-like conversational voice agents that handle thousands of inbound and outbound calls
                             simultaneously with latency under 800ms and natural interruptions.</p>
-                    </div>
+                    </article>
 
-                    <div class="service-card glass-panel reveal slide-up" style="transition-delay: 0.3s">
-                        <div class="service-icon">👤</div>
+                    <article class="service-card glass-panel reveal slide-up" style="transition-delay: 0.3s">
+                        <div class="service-icon" aria-hidden="true">👤</div>
                         <h3>Interactive AI Avatars</h3>
                         <p>Photorealistic digital twins programmed to interact with your customers in real-time,
                             providing personalized concierge experiences across any device.</p>
-                    </div>
+                    </article>
 
-                    <div class="service-card glass-panel reveal slide-up" style="transition-delay: 0.4s">
-                        <div class="service-icon">🎬</div>
+                    <article class="service-card glass-panel reveal slide-up" style="transition-delay: 0.4s">
+                        <div class="service-icon" aria-hidden="true">🎬</div>
                         <h3>AI-Generated Video</h3>
-                        <p>Hyper-personalized marketing content created at scale. We text-to-video algorithms to
-                            generate dynamic ad creatives customized for every user segment.</p>
-                    </div>
+                        <p>Hyper-personalized marketing content created at scale. Text-to-video algorithms generate
+                            dynamic ad creatives customized for every user segment.</p>
+                    </article>
 
-                    <div class="service-card glass-panel reveal slide-up" style="transition-delay: 0.5s">
-                        <div class="service-icon">🎙️</div>
+                    <article class="service-card glass-panel reveal slide-up" style="transition-delay: 0.5s">
+                        <div class="service-icon" aria-hidden="true">🎙️</div>
                         <h3>AI-Generated Audio</h3>
                         <p>Studio-quality voice synthesis and soundscape generation. Clone specific brand voices
                             perfectly tailored for podcasts, ads, or IVR systems.</p>
-                    </div>
+                    </article>
 
-                    <div class="service-card glass-panel reveal slide-up" style="transition-delay: 0.6s">
-                        <div class="service-icon">✂️</div>
+                    <article class="service-card glass-panel reveal slide-up" style="transition-delay: 0.6s">
+                        <div class="service-icon" aria-hidden="true">✂️</div>
                         <h3>AI Media Post-Production</h3>
                         <p>Automated editing workflows that ingest raw footage and output virally-optimized shorts,
                             complete with dynamic captions, b-roll, and pacing adjustments.</p>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
 
         <!-- How It Works Section -->
-        <section class="how-it-works" id="how-it-works">
+        <section class="how-it-works" id="how-it-works" aria-labelledby="how-heading">
             <div class="container">
                 <div class="section-header reveal slide-up">
-                    <h2>Seamless <span class="gradient-text">Integration</span></h2>
+                    <h2 id="how-heading">Seamless <span class="gradient-text">Integration</span></h2>
                     <p>We transform your operational bottlenecks into autonomous workflows in weeks, not months.</p>
                 </div>
 
-                <div class="steps-container">
-                    <div class="step reveal fade-in" style="transition-delay: 0.1s">
-                        <div class="step-num">01</div>
+                <ol class="steps-container">
+                    <li class="step reveal fade-in" style="transition-delay: 0.1s">
+                        <div class="step-num" aria-hidden="true">01</div>
                         <div class="step-content">
-                            <h4>Discovery & Audit</h4>
+                            <h3>Discovery &amp; Audit</h3>
                             <p>We map your existing workflows and identify high-leverage areas for AI automation to
                                 guarantee immediate ROI.</p>
                         </div>
-                    </div>
-                    <div class="step-line"></div>
-                    <div class="step reveal fade-in" style="transition-delay: 0.2s">
-                        <div class="step-num">02</div>
+                    </li>
+                    <li class="step-line" aria-hidden="true"></li>
+                    <li class="step reveal fade-in" style="transition-delay: 0.2s">
+                        <div class="step-num" aria-hidden="true">02</div>
                         <div class="step-content">
-                            <h4>Custom Development</h4>
+                            <h3>Custom Development</h3>
                             <p>Our engineers build, train, and fine-tune proprietary LLMs and voice models strictly on
                                 your company's data and brand voice.</p>
                         </div>
-                    </div>
-                    <div class="step-line"></div>
-                    <div class="step reveal fade-in" style="transition-delay: 0.3s">
-                        <div class="step-num">03</div>
+                    </li>
+                    <li class="step-line" aria-hidden="true"></li>
+                    <li class="step reveal fade-in" style="transition-delay: 0.3s">
+                        <div class="step-num" aria-hidden="true">03</div>
                         <div class="step-content">
-                            <h4>Deployment & QA</h4>
+                            <h3>Deployment &amp; QA</h3>
                             <p>We deploy the agents into your existing systems (CRM, social channels, telephony) with
                                 rigorous guardrails and human-in-the-loop fallback.</p>
                         </div>
-                    </div>
-                    <div class="step-line"></div>
-                    <div class="step reveal fade-in" style="transition-delay: 0.4s">
-                        <div class="step-num">04</div>
+                    </li>
+                    <li class="step-line" aria-hidden="true"></li>
+                    <li class="step reveal fade-in" style="transition-delay: 0.4s">
+                        <div class="step-num" aria-hidden="true">04</div>
                         <div class="step-content">
-                            <h4>Continuous Optimization</h4>
+                            <h3>Continuous Optimization</h3>
                             <p>Your agents get smarter every day. We monitor analytics, refine prompt architectures, and
                                 continuously upgrade capabilities.</p>
                         </div>
-                    </div>
-                </div>
+                    </li>
+                </ol>
             </div>
         </section>
 
         <!-- Portfolio Showcase -->
-        <section class="portfolio glass-background" id="portfolio">
+        <section class="portfolio glass-background" id="portfolio" aria-labelledby="portfolio-heading">
             <div class="container">
                 <div class="section-header center reveal slide-up">
-                    <h2>Experience the <span class="gradient-text">Future</span></h2>
+                    <h2 id="portfolio-heading">Experience the <span class="gradient-text">Future</span></h2>
                     <p>Live demonstrations of our proprietary agents and media generations.</p>
                 </div>
 
                 <div class="portfolio-grid">
-                    <div class="portfolio-item reveal slide-up">
+                    <article class="portfolio-item reveal slide-up">
                         <div class="portfolio-media avatar-mock">
                             <div class="avatar-demo">
-                                <div class="avatar-silhouette">
+                                <div class="avatar-silhouette" aria-hidden="true">
                                     <div class="avatar-head"></div>
                                     <div class="avatar-body"></div>
                                     <div class="avatar-glow"></div>
                                 </div>
-                                <div class="avatar-chat-feed">
+                                <div class="avatar-chat-feed" aria-hidden="true">
                                     <div class="avatar-line line-1">Analyzing objection patterns...</div>
                                     <div class="avatar-line line-2">Generating personalized response</div>
                                     <div class="avatar-line line-3">Confidence: 97.2%</div>
@@ -239,43 +312,43 @@
                             </div>
                         </div>
                         <div class="portfolio-info">
-                            <h4>Interactive Sales Avatar</h4>
+                            <h3>Interactive Sales Avatar</h3>
                             <p>Real-time objection handling for high-ticket coaching.</p>
                         </div>
-                    </div>
+                    </article>
 
-                    <div class="portfolio-item reveal slide-up" style="transition-delay: 0.2s">
+                    <article class="portfolio-item reveal slide-up" style="transition-delay: 0.2s">
                         <div class="portfolio-media chat-mock">
                             <div class="chat-bubble left">Hi, I need help with my order.</div>
                             <div class="chat-bubble right">Absolutely! Could you provide your order number?</div>
                         </div>
                         <div class="portfolio-info">
-                            <h4>WhatsApp Commerce Agent</h4>
+                            <h3>WhatsApp Commerce Agent</h3>
                             <p>End-to-end checkout flow within WhatsApp.</p>
                         </div>
-                    </div>
+                    </article>
 
-                    <div class="portfolio-item reveal slide-up" style="transition-delay: 0.4s">
+                    <article class="portfolio-item reveal slide-up" style="transition-delay: 0.4s">
                         <div class="portfolio-media audio-mock">
-                            <div class="audio-waves">
+                            <div class="audio-waves" aria-hidden="true">
                                 <span></span><span></span><span></span><span></span><span></span>
                             </div>
                         </div>
                         <div class="portfolio-info">
-                            <h4>Inbound Voice Concierge</h4>
+                            <h3>Inbound Voice Concierge</h3>
                             <p>Handling booking and dispatch for a national plumbing franchise.</p>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
 
         <!-- Use Cases / Industries -->
-        <section class="use-cases" id="use-cases">
+        <section class="use-cases" id="use-cases" aria-labelledby="usecases-heading">
             <div class="container">
                 <div class="use-case-flex">
                     <div class="use-case-text reveal slide-up">
-                        <h2>Built for <span class="gradient-text">Scale.</span></h2>
+                        <h2 id="usecases-heading">Built for <span class="gradient-text">Scale.</span></h2>
                         <ul class="industry-list">
                             <li><strong>E-Commerce:</strong> Automated abandoned cart recovery, product recommendations,
                                 and instant support.</li>
@@ -291,21 +364,21 @@
                         <div class="metrics-ui">
                             <div class="stat-row">
                                 <span class="stat-label">Leads Captured</span>
-                                <div class="stat-bar">
+                                <div class="stat-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
                                     <div class="fill" style="width: 85%"></div>
                                 </div>
                                 <span class="stat-val">+340%</span>
                             </div>
                             <div class="stat-row">
                                 <span class="stat-label">Support Costs</span>
-                                <div class="stat-bar">
+                                <div class="stat-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
                                     <div class="fill negative" style="width: 40%"></div>
                                 </div>
                                 <span class="stat-val">-60%</span>
                             </div>
                             <div class="stat-row">
                                 <span class="stat-label">Conversion Rate</span>
-                                <div class="stat-bar">
+                                <div class="stat-bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
                                     <div class="fill" style="width: 65%"></div>
                                 </div>
                                 <span class="stat-val">12.4%</span>
@@ -317,43 +390,40 @@
         </section>
 
         <!-- FAQ -->
-        <section class="faq-section" id="faq">
+        <section class="faq-section" id="faq" aria-labelledby="faq-heading">
             <div class="container faq-container reveal slide-up">
                 <div class="section-header center">
-                    <h2>Common <span class="gradient-text">Questions</span></h2>
+                    <h2 id="faq-heading">Common <span class="gradient-text">Questions</span></h2>
                 </div>
 
                 <div class="faq-accordion">
                     <div class="faq-item">
-                        <button class="faq-question">Will the AI sound robotic to my customers? <span
-                                class="icon">›</span></button>
-                        <div class="faq-answer">
+                        <button class="faq-question" aria-expanded="false">Will the AI sound robotic to my customers? <span class="icon" aria-hidden="true">›</span></button>
+                        <div class="faq-answer" role="region">
                             <p>No. We utilize state-of-the-art text-to-speech models and LLMs that include filler words,
                                 natural breathing, and dynamic intonation. In blind tests, 94% of users cannot
                                 distinguish our voice agents from human operators.</p>
                         </div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-question">How secure is my company data? <span class="icon">›</span></button>
-                        <div class="faq-answer">
+                        <button class="faq-question" aria-expanded="false">How secure is my company data? <span class="icon" aria-hidden="true">›</span></button>
+                        <div class="faq-answer" role="region">
                             <p>Security is paramount. All models are deployed in private cloud environments. Your data
                                 is never used to train foundational public models, and we adhere to SOC2 compliance
                                 standards.</p>
                         </div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-question">What if the AI makes a mistake? <span
-                                class="icon">›</span></button>
-                        <div class="faq-answer">
+                        <button class="faq-question" aria-expanded="false">What if the AI makes a mistake? <span class="icon" aria-hidden="true">›</span></button>
+                        <div class="faq-answer" role="region">
                             <p>We build rigorous guardrails and logic constraints. Additionally, we implement dynamic
                                 'human-in-the-loop' routing, transferring the conversation instantly to a human agent if
                                 the AI confidence score drops below a safe threshold.</p>
                         </div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-question">How long does integration take? <span
-                                class="icon">›</span></button>
-                        <div class="faq-answer">
+                        <button class="faq-question" aria-expanded="false">How long does integration take? <span class="icon" aria-hidden="true">›</span></button>
+                        <div class="faq-answer" role="region">
                             <p>Depending on complexity, standard chat agents take 2-3 weeks, while complex voice and
                                 avatar integrations take 4-6 weeks to build, train, and test thoroughly.</p>
                         </div>
@@ -363,40 +433,37 @@
         </section>
 
         <!-- Contact Section -->
-        <section class="contact" id="contact">
+        <section class="contact" id="contact" aria-labelledby="contact-heading">
             <div class="container">
                 <div class="contact-wrapper glass-panel reveal fade-in">
                     <div class="contact-info">
-                        <h2>Ready to automate your enterprise?</h2>
+                        <h2 id="contact-heading">Ready to automate your enterprise?</h2>
                         <p>Book a strategy call with our AI integration specialists to discover the exact ROI potential
                             for your business.</p>
                         <div class="contact-perks">
-                            <div class="perk"><span class="perk-check"></span>✓</span> Custom AI Architecture Plan</div>
-                            <div class="perk"><span class="perk-check">✓</span> ROI & Cost-Savings Estimate</div>
-                            <div class="perk"><span class="perk-check">✓</span> Live Demo Specific to Your Industry
-                            </div>
+                            <div class="perk"><span class="perk-check" aria-hidden="true">✓</span> Custom AI Architecture Plan</div>
+                            <div class="perk"><span class="perk-check" aria-hidden="true">✓</span> ROI &amp; Cost-Savings Estimate</div>
+                            <div class="perk"><span class="perk-check" aria-hidden="true">✓</span> Live Demo Specific to Your Industry</div>
                         </div>
                     </div>
 
                     <div class="contact-form-container">
-                        <form id="lead-form" class="lead-form">
+                        <form id="lead-form" class="lead-form" novalidate>
                             <div class="form-row">
                                 <div class="input-group">
                                     <label for="fullName">Full Name</label>
-                                    <input type="text" id="fullName" name="fullName" required placeholder="John Doe">
+                                    <input type="text" id="fullName" name="fullName" required placeholder="John Doe" autocomplete="name">
                                 </div>
                                 <div class="input-group">
                                     <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" required
-                                        placeholder="hello@company.com">
+                                    <input type="email" id="email" name="email" required placeholder="hello@company.com" autocomplete="email">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="input-group">
                                     <label for="companyName">Company Name</label>
-                                    <input type="text" id="companyName" name="companyName" required
-                                        placeholder="Acme Corp">
+                                    <input type="text" id="companyName" name="companyName" required placeholder="Acme Corp" autocomplete="organization">
                                 </div>
                                 <div class="input-group">
                                     <label for="service">Service Needed</label>
@@ -424,12 +491,12 @@
 
                             <button type="submit" class="btn btn-primary btn-block submit-btn">
                                 <span class="btn-text">Submit Request</span>
-                                <div class="loader-spinner"></div>
+                                <div class="loader-spinner" aria-hidden="true"></div>
                             </button>
 
-                            <div id="form-success" class="form-success-msg hidden">
-                                <div class="success-icon">✓</div>
-                                <h4>Request Received</h4>
+                            <div id="form-success" class="form-success-msg hidden" role="alert">
+                                <div class="success-icon" aria-hidden="true">✓</div>
+                                <h3>Request Received</h3>
                                 <p>We'll be in touch within 24 hours.</p>
                             </div>
                         </form>
@@ -444,56 +511,50 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="logo">
-                        <span class="logo-mark"></span>
+                    <a href="#" class="logo" aria-label="Flotlabs home">
+                        <span class="logo-mark" aria-hidden="true"></span>
                         <span class="logo-text">Flotlabs</span>
                     </a>
                     <p class="footer-bio">Architecting the autonomous enterprise through advanced generative AI and
                         logic models.</p>
                 </div>
 
-                <div class="footer-links">
+                <nav class="footer-links" aria-label="Services navigation">
                     <h4>Services</h4>
-                    <ul>
+                    <ul role="list">
                         <li><a href="#services">Chat Agents</a></li>
                         <li><a href="#services">Voice AI</a></li>
                         <li><a href="#services">Interactive Avatars</a></li>
                         <li><a href="#services">Media Generation</a></li>
                     </ul>
-                </div>
+                </nav>
 
-                <div class="footer-links">
+                <nav class="footer-links" aria-label="Legal navigation">
                     <h4>Legal</h4>
-                    <ul>
+                    <ul role="list">
                         <li><a href="#" class="legal-link" data-modal="privacy">Privacy Policy</a></li>
                         <li><a href="#" class="legal-link" data-modal="terms">Terms of Service</a></li>
                     </ul>
-                </div>
+                </nav>
             </div>
 
             <div class="footer-bottom">
                 <p>&copy; 2026 Flotlabs. All rights reserved.</p>
                 <div class="social-links">
                     <a href="#" aria-label="LinkedIn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
-                            </path>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                             <rect x="2" y="9" width="4" height="12"></rect>
                             <circle cx="4" cy="4" r="2"></circle>
                         </svg>
                     </a>
                     <a href="#" aria-label="Twitter">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z">
-                            </path>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
                         </svg>
                     </a>
                     <a href="#" aria-label="Instagram">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
@@ -506,66 +567,59 @@
 
     <script src="script.js"></script>
 
-    <!-- Modals -->
-    <div id="modal-privacy" class="modal">
+    <!-- Privacy Modal -->
+    <div id="modal-privacy" class="modal" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title">
         <div class="modal-content glass-panel">
-            <span class="close-modal">&times;</span>
+            <button class="close-modal" aria-label="Close privacy policy">&times;</button>
             <div class="modal-header">
-                <h2>Privacy <span class="gradient-text">Policy</span></h2>
+                <h2 id="privacy-modal-title">Privacy <span class="gradient-text">Policy</span></h2>
             </div>
             <div class="modal-body">
                 <h3>1. Introduction</h3>
                 <p>At Flotlabs, protecting your company's data and your customers' personal information is our
                     highest priority. This policy outlines how we collect, process, and secure data when providing
                     enterprise AI solutions.</p>
-
                 <h3>2. Data Collection and Usage</h3>
                 <p>We process data solely for the purpose of operating and improving the custom AI agents deployed for
                     your business. This includes chat logs, voice transcripts, and user interaction metadata. We do not
                     sell this data to third parties.</p>
-
-                <h3>3. Model Training & Isolation</h3>
+                <h3>3. Model Training &amp; Isolation</h3>
                 <p>Unlike public foundational models, the proprietary models we build for your enterprise are trained
                     exclusively on your provided data. Interaction data is never pooled or used to train models for
                     other clients.</p>
-
                 <h3>4. Security Standards</h3>
                 <p>We adhere to SOC 2 Type II compliance standards. All data in transit and at rest is encrypted using
                     AES-256. Database instances are isolated per client within private VPCs.</p>
-
-                <h3>5. Data Retention & Deletion</h3>
+                <h3>5. Data Retention &amp; Deletion</h3>
                 <p>Interaction logs are retained according to your specific organizational requirements (default is 90
                     days). You maintain the right to instantly purge any stored user data upon request.</p>
             </div>
         </div>
     </div>
 
-    <div id="modal-terms" class="modal">
+    <!-- Terms Modal -->
+    <div id="modal-terms" class="modal" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
         <div class="modal-content glass-panel">
-            <span class="close-modal">&times;</span>
+            <button class="close-modal" aria-label="Close terms of service">&times;</button>
             <div class="modal-header">
-                <h2>Terms of <span class="gradient-text">Service</span></h2>
+                <h2 id="terms-modal-title">Terms of <span class="gradient-text">Service</span></h2>
             </div>
             <div class="modal-body">
                 <h3>1. Service Agreement</h3>
                 <p>By engaging Flotlabs to deploy autonomous chat agents, voice avatars, or generated media, you
                     agree to these enterprise terms of service. Our services are provided strictly for lawful business
                     automation purposes.</p>
-
                 <h3>2. Intellectual Property</h3>
                 <p>You retain full ownership of all training data, brand assets, and customer information provided to
                     us. The underlying AI architectures, proprietary frameworks, and orchestration logic remain the
                     intellectual property of Flotlabs.</p>
-
-                <h3>3. Output Liability & Guardrails</h3>
+                <h3>3. Output Liability &amp; Guardrails</h3>
                 <p>While we implement rigorous semantic guardrails and human-in-the-loop fallback systems, AI outputs
                     are probabilistic. Flotlabs is not liable for indirect damages resulting from unexpected agent
                     responses. It is the client's responsibility to review agent performance regularly.</p>
-
-                <h3>4. Uptime & SLAs</h3>
+                <h3>4. Uptime &amp; SLAs</h3>
                 <p>We guarantee 99.9% uptime for deployed agents under our Enterprise SLA. Maintenance windows will be
                     scheduled during off-peak hours with minimum 48-hour notice.</p>
-
                 <h3>5. Termination</h3>
                 <p>Contracts may be terminated with 30 days written notice. Upon termination, all client-specific model
                     weights and accrued interaction data will be permanently destroyed within 7 business days.</p>

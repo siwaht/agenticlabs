@@ -6,68 +6,53 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.getElementById('nav-links');
     const navItems = navLinks.querySelectorAll('a');
 
-    // Sticky Nav on Scroll
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
 
-    // Mobile Menu Toggle
     mobileBtn.addEventListener('click', () => {
         const isOpen = navLinks.classList.contains('mobile-active');
 
         mobileBtn.classList.toggle('active');
+        mobileBtn.setAttribute('aria-expanded', !isOpen);
         navLinks.classList.toggle('mobile-active');
 
         if (!isOpen) {
-            setTimeout(() => {
-                navLinks.classList.add('reveal-items');
-            }, 10);
+            setTimeout(() => navLinks.classList.add('reveal-items'), 10);
             document.body.style.overflow = 'hidden';
         } else {
             navLinks.classList.remove('reveal-items');
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = '';
         }
     });
 
-    // Close Mobile Menu on Click
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            mobileBtn.classList.remove('active');
-            navLinks.classList.remove('mobile-active');
-            navLinks.classList.remove('reveal-items');
-            document.body.style.overflow = 'auto';
-        });
-    });
+    function closeMobileMenu() {
+        mobileBtn.classList.remove('active');
+        mobileBtn.setAttribute('aria-expanded', 'false');
+        navLinks.classList.remove('mobile-active', 'reveal-items');
+        document.body.style.overflow = '';
+    }
+
+    navItems.forEach(item => item.addEventListener('click', closeMobileMenu));
 
     const navCta = document.getElementById('nav-cta');
     if (navCta) {
         navCta.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileBtn.classList.remove('active');
-                navLinks.classList.remove('mobile-active');
-                navLinks.classList.remove('reveal-items');
-                document.body.style.overflow = 'auto';
-            });
+            link.addEventListener('click', closeMobileMenu);
         });
     }
 
     /* --- 2. Scroll Reveal Animations --- */
-    const revealElements = document.querySelectorAll('.reveal');
-
-    const revealOnScroll = new IntersectionObserver(function (entries, observer) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
 
-    revealElements.forEach(el => revealOnScroll.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     /* --- 3. Hero Content Staggered Animation --- */
     const heroContent = document.querySelector('.hero-content');
@@ -86,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function update(currentTime) {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
             const current = Math.round(start + (end - start) * eased);
             el.textContent = prefix + current.toLocaleString() + suffix;
             if (progress < 1) requestAnimationFrame(update);
@@ -99,9 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entry.isIntersecting) {
                 trustValues.forEach(el => {
                     const text = el.textContent.trim();
-                    if (text === '24/7') return; // skip non-numeric
+                    if (text === '24/7') return;
                     if (text === '<2s') {
-                        // Animate from <9s to <2s
                         let count = 9;
                         const interval = setInterval(() => {
                             count--;
@@ -123,8 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (trustBar) trustObserver.observe(trustBar);
 
     /* --- 5. Stat Bar Width Animation on Scroll --- */
-    const statBars = document.querySelectorAll('.stat-bar .fill');
-    statBars.forEach(bar => {
+    document.querySelectorAll('.stat-bar .fill').forEach(bar => {
         const targetWidth = bar.style.width;
         bar.style.width = '0%';
         const barObserver = new IntersectionObserver((entries) => {
@@ -139,21 +122,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* --- 6. FAQ Accordion --- */
-    const faqQuestions = document.querySelectorAll('.faq-question');
-
-    faqQuestions.forEach(question => {
+    document.querySelectorAll('.faq-question').forEach(question => {
         question.addEventListener('click', () => {
             const answer = question.nextElementSibling;
             const isActive = question.classList.contains('active');
 
+            // Close all
             document.querySelectorAll('.faq-question').forEach(q => {
                 q.classList.remove('active');
+                q.setAttribute('aria-expanded', 'false');
                 q.nextElementSibling.style.maxHeight = null;
             });
 
+            // Open clicked if it wasn't active
             if (!isActive) {
                 question.classList.add('active');
-                answer.style.maxHeight = answer.scrollHeight + "px";
+                question.setAttribute('aria-expanded', 'true');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
             }
         });
     });
@@ -161,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
     /* --- 7. Theme Toggle --- */
     const themeToggle = document.getElementById('theme-toggle');
     const savedTheme = localStorage.getItem('theme');
-
     if (savedTheme) {
         document.documentElement.setAttribute('data-theme', savedTheme);
     }
@@ -173,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', next);
     });
 
-    /* --- 8. Contact Form Simulation --- */
+    /* --- 8. Contact Form --- */
     const leadForm = document.getElementById('lead-form');
     const submitBtn = leadForm.querySelector('.submit-btn');
     const successMsg = document.getElementById('form-success');
@@ -191,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1500);
     });
 
-    /* --- 9. Smooth Active Nav Highlight --- */
+    /* --- 9. Active Nav Highlight --- */
     const sections = document.querySelectorAll('section[id]');
     const navLinksAll = document.querySelectorAll('.nav-links a');
 
@@ -200,14 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
                 navLinksAll.forEach(link => {
-                    link.classList.remove('active-link');
-                    if (link.getAttribute('href') === '#' + id) {
-                        link.classList.add('active-link');
-                    }
+                    link.classList.toggle('active-link', link.getAttribute('href') === '#' + id);
                 });
             }
         });
-    }, { threshold: 0.3, rootMargin: "-80px 0px -50% 0px" });
+    }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
 
     sections.forEach(section => navHighlight.observe(section));
 
@@ -218,14 +199,16 @@ document.addEventListener('DOMContentLoaded', () => {
         let width, height;
         let particles = [];
         const connectionDistance = 120;
+        let animId;
 
         function resizeCanvas() {
             const parent = canvas.parentElement;
             width = parent.clientWidth;
             height = parent.clientHeight;
-            canvas.width = width * window.devicePixelRatio;
-            canvas.height = height * window.devicePixelRatio;
-            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.scale(dpr, dpr);
         }
 
         window.addEventListener('resize', () => {
@@ -247,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.x += this.vx;
                 this.y += this.vy;
 
-                // Repel from boundaries gently to stay loosely within the circle
                 const dx = this.x - width / 2;
                 const dy = this.y - height / 2;
                 const distFromCenter = Math.sqrt(dx * dx + dy * dy);
@@ -258,13 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     this.vy -= dy * 0.0015;
                 }
 
-                // occasional minor random boosts to speed for natural look
                 if (Math.random() < 0.01) {
                     this.vx += (Math.random() - 0.5) * 0.5;
                     this.vy += (Math.random() - 0.5) * 0.5;
                 }
 
-                // Cap speed
                 const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
                 if (speed > 2) {
                     this.vx = (this.vx / speed) * 2;
@@ -277,8 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(14, 165, 165, ${this.baseAlpha})`;
                 ctx.fill();
-
-                // slight glow for particles
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = 'rgba(14, 165, 165, 0.8)';
             }
@@ -286,16 +264,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function initParticles() {
             particles = [];
-            const isMobile = window.innerWidth < 768;
-            const numParticles = isMobile ? 35 : 70;
-
+            const numParticles = window.innerWidth < 768 ? 35 : 70;
             for (let i = 0; i < numParticles; i++) {
                 particles.push(new Particle());
             }
         }
 
         function drawConnections() {
-            ctx.shadowBlur = 0; // disable shadow for lines to save performance
+            ctx.shadowBlur = 0;
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
@@ -317,37 +293,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function animateCanvas() {
             ctx.clearRect(0, 0, width, height);
-
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-
+            particles.forEach(p => { p.update(); p.draw(); });
             drawConnections();
-
-            requestAnimationFrame(animateCanvas);
+            animId = requestAnimationFrame(animateCanvas);
         }
 
-        // Initial setup
+        // Pause canvas when not visible for performance
+        const canvasObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!animId) animateCanvas();
+                } else {
+                    if (animId) { cancelAnimationFrame(animId); animId = null; }
+                }
+            });
+        }, { threshold: 0 });
+
         setTimeout(() => {
             resizeCanvas();
             initParticles();
-            animateCanvas();
+            canvasObserver.observe(canvas);
         }, 100);
     }
 
-    /* --- 11. Legal Modals Logic --- */
-    const modalLinks = document.querySelectorAll('.legal-link');
+    /* --- 11. Legal Modals --- */
     const closeBtns = document.querySelectorAll('.close-modal');
 
-    modalLinks.forEach(link => {
+    document.querySelectorAll('.legal-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const modalId = `modal-${link.getAttribute('data-modal')}`;
-            const modal = document.getElementById(modalId);
+            const modal = document.getElementById(`modal-${link.getAttribute('data-modal')}`);
             if (modal) {
                 modal.classList.add('show');
                 document.body.style.overflow = 'hidden';
+                modal.querySelector('.close-modal').focus();
             }
         });
     });
@@ -356,15 +335,28 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const modal = btn.closest('.modal');
             modal.classList.remove('show');
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = '';
         });
     });
 
-    // Close on outside click
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) {
             e.target.classList.remove('show');
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal.show').forEach(modal => {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            });
+            // Also close mobile menu
+            if (navLinks.classList.contains('mobile-active')) {
+                closeMobileMenu();
+            }
         }
     });
 
