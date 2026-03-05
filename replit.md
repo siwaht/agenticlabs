@@ -1,7 +1,7 @@
-# Agenticoslabs Landing Page
+# Flotlabs Landing Page
 
 ## Overview
-A static landing page for Agenticoslabs, an AI agency offering chat agents, voice avatars, and generated media for enterprise digital growth.
+A static landing page for Flotlabs, an AI agency offering chat agents, voice avatars, and generated media for enterprise digital growth.
 
 ## Project Architecture
 - **Type**: Static website (HTML, CSS, JavaScript)
