@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fullName: document.getElementById('fullName').value,
             email: document.getElementById('email').value,
             companyName: document.getElementById('companyName').value,
-            service: document.getElementById('service').value,
+            service: Array.from(document.querySelectorAll('input[name="service"]:checked')).map(cb => cb.value),
             budget: document.getElementById('budget').value,
             message: document.getElementById('message').value
         };

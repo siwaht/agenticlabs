@@ -498,16 +498,15 @@
                                     <label for="companyName">Company Name</label>
                                     <input type="text" id="companyName" name="companyName" required placeholder="Acme Corp" autocomplete="organization">
                                 </div>
-                                <div class="input-group">
-                                    <label for="service">Service Needed</label>
-                                    <select id="service" name="service" required>
-                                        <option value="" disabled selected>Select an option</option>
-                                        <option value="chat">Omnichannel Chat Agents</option>
-                                        <option value="voice">Voice Calling AI</option>
-                                        <option value="avatars">Interactive AI Avatars</option>
-                                        <option value="media">AI Media Generation</option>
-                                        <option value="other">Other / Not Sure</option>
-                                    </select>
+                                <div class="input-group service-checkboxes">
+                                    <label>Services Needed</label>
+                                    <div class="checkbox-grid">
+                                        <label class="checkbox-label"><input type="checkbox" name="service" value="chat"><span>Omnichannel Chat Agents</span></label>
+                                        <label class="checkbox-label"><input type="checkbox" name="service" value="voice"><span>Voice Calling AI</span></label>
+                                        <label class="checkbox-label"><input type="checkbox" name="service" value="avatars"><span>Interactive AI Avatars</span></label>
+                                        <label class="checkbox-label"><input type="checkbox" name="service" value="media"><span>AI Media Generation</span></label>
+                                        <label class="checkbox-label"><input type="checkbox" name="service" value="other"><span>Other / Not Sure</span></label>
+                                    </div>
                                 </div>
                             </div>
 
