@@ -166,13 +166,31 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         submitBtn.classList.add('loading');
 
-        setTimeout(() => {
+        const formData = {
+            fullName: document.getElementById('fullName').value,
+            email: document.getElementById('email').value,
+            companyName: document.getElementById('companyName').value,
+            service: document.getElementById('service').value,
+            budget: document.getElementById('budget').value,
+            message: document.getElementById('message').value
+        };
+
+        fetch('https://hook.eu2.make.com/jn1h0e92jklb7jr1ciy8cm7pbx7uxlno', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+        .then(() => {
             submitBtn.classList.remove('loading');
             Array.from(leadForm.children).forEach(child => {
                 if (child.id !== 'form-success') child.style.display = 'none';
             });
             successMsg.classList.remove('hidden');
-        }, 1500);
+        })
+        .catch(() => {
+            submitBtn.classList.remove('loading');
+            alert('Something went wrong. Please try again.');
+        });
     });
 
     /* --- 9. Active Nav Highlight --- */
