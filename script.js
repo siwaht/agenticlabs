@@ -42,6 +42,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /* Smooth scroll with offset for fixed navbar */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const target = document.querySelector(targetId);
+            if (target) {
+                e.preventDefault();
+                const navHeight = navbar.offsetHeight;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
     /* --- 2. Scroll Reveal Animations --- */
     const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -86,12 +105,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     const text = el.textContent.trim();
                     if (text === '24/7') return;
                     if (text === '<2s') {
+                        // Animate from 9 down to 2
                         let count = 9;
+                        el.textContent = '<' + count + 's';
                         const interval = setInterval(() => {
                             count--;
-                            el.textContent = '<' + count + 's';
+                            if (count >= 2) {
+                                el.textContent = '<' + count + 's';
+                            }
                             if (count <= 2) clearInterval(interval);
-                        }, 120);
+                        }, 150);
                     } else if (text === '40%') {
                         animateValue(el, 0, 40, '%', '', 1200);
                     } else if (text === '1M+') {
@@ -162,8 +185,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = leadForm.querySelector('.submit-btn');
     const successMsg = document.getElementById('form-success');
 
+    // Real-time validation
+    const inputs = leadForm.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.hasAttribute('required') && !this.value.trim()) {
+                this.style.borderColor = 'var(--accent-warm)';
+            } else {
+                this.style.borderColor = '';
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.style.borderColor = '';
+            }
+        });
+    });
+
     leadForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        
+        // Validate required fields
+        let isValid = true;
+        inputs.forEach(input => {
+            if (input.hasAttribute('required') && !input.value.trim()) {
+                input.style.borderColor = 'var(--accent-warm)';
+                isValid = false;
+            }
+        });
+        
+        if (!isValid) {
+            // Shake animation for invalid form
+            leadForm.style.animation = 'none';
+            leadForm.offsetHeight; // Trigger reflow
+            leadForm.style.animation = 'shake 0.5s ease';
+            return;
+        }
+        
         submitBtn.classList.add('loading');
 
         const formData = {
@@ -186,12 +245,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (child.id !== 'form-success') child.style.display = 'none';
             });
             successMsg.classList.remove('hidden');
+            // Announce success to screen readers
+            successMsg.setAttribute('role', 'alert');
         })
         .catch(() => {
             submitBtn.classList.remove('loading');
             alert('Something went wrong. Please try again.');
         });
     });
+
+    // Add shake animation dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+    `;
+    document.head.appendChild(style);
 
     /* --- 9. Active Nav Highlight --- */
     const sections = document.querySelectorAll('section[id]');
@@ -332,6 +404,26 @@ document.addEventListener('DOMContentLoaded', () => {
             initParticles();
             canvasObserver.observe(canvas);
         }, 100);
+    }
+
+    /* --- 12. Subtle Parallax on Scroll --- */
+    const heroVisual = document.querySelector('.hero-visual');
+    if (heroVisual) {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const heroHeight = document.querySelector('.hero').offsetHeight;
+                    if (scrolled < heroHeight) {
+                        const parallax = scrolled * 0.15;
+                        heroVisual.style.transform = `translateY(${parallax}px)`;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
     }
 
     /* --- 11. Legal Modals --- */
