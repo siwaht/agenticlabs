@@ -1,9 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    /* Respect the user's motion preferences for JS-driven animations */
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     /* --- 1. Sticky Navbar & Mobile Menu --- */
     const navbar = document.getElementById('navbar');
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const navLinks = document.getElementById('nav-links');
+
+    if (!navbar || !mobileBtn || !navLinks) return;
+
     const navItems = navLinks.querySelectorAll('a');
 
     window.addEventListener('scroll', () => {
@@ -101,6 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const trustObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
+                if (prefersReducedMotion) {
+                    // Leave the final values already present in the markup
+                    trustObserver.disconnect();
+                    return;
+                }
                 trustValues.forEach(el => {
                     const text = el.textContent.trim();
                     if (text === '24/7') return;
@@ -166,93 +177,131 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Recalculate height of any open FAQ answer when the viewport changes
+    let faqResizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(faqResizeTimer);
+        faqResizeTimer = setTimeout(() => {
+            const openQuestion = document.querySelector('.faq-question.active');
+            if (openQuestion) {
+                const answer = openQuestion.nextElementSibling;
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        }, 150);
+    }, { passive: true });
+
     /* --- 7. Theme Toggle --- */
     const themeToggle = document.getElementById('theme-toggle');
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
         document.documentElement.setAttribute('data-theme', savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        // Honor the OS preference on first visit (default markup is dark)
+        document.documentElement.setAttribute('data-theme', 'light');
     }
 
-    themeToggle.addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme');
-        const next = current === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-    });
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
+    }
 
     /* --- 8. Contact Form --- */
     const leadForm = document.getElementById('lead-form');
-    const submitBtn = leadForm.querySelector('.submit-btn');
-    const successMsg = document.getElementById('form-success');
+    if (leadForm) {
+        const submitBtn = leadForm.querySelector('.submit-btn');
+        const successMsg = document.getElementById('form-success');
+        const emailInput = document.getElementById('email');
 
-    // Real-time validation
-    const inputs = leadForm.querySelectorAll('input, select, textarea');
-    inputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            if (this.hasAttribute('required') && !this.value.trim()) {
-                this.style.borderColor = 'var(--accent-warm)';
-            } else {
-                this.style.borderColor = '';
-            }
-        });
-        
-        input.addEventListener('input', function() {
-            if (this.value.trim()) {
-                this.style.borderColor = '';
-            }
-        });
-    });
+        const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 
-    leadForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Validate required fields
-        let isValid = true;
+        const markInvalid = (input) => { input.style.borderColor = 'var(--accent-warm)'; };
+        const clearInvalid = (input) => { input.style.borderColor = ''; };
+
+        // Real-time validation
+        const inputs = leadForm.querySelectorAll('input, select, textarea');
         inputs.forEach(input => {
-            if (input.hasAttribute('required') && !input.value.trim()) {
-                input.style.borderColor = 'var(--accent-warm)';
-                isValid = false;
-            }
-        });
-        
-        if (!isValid) {
-            // Shake animation for invalid form
-            leadForm.style.animation = 'none';
-            leadForm.offsetHeight; // Trigger reflow
-            leadForm.style.animation = 'shake 0.5s ease';
-            return;
-        }
-        
-        submitBtn.classList.add('loading');
-
-        const formData = {
-            fullName: document.getElementById('fullName').value,
-            email: document.getElementById('email').value,
-            companyName: document.getElementById('companyName').value,
-            service: Array.from(document.querySelectorAll('input[name="service"]:checked')).map(cb => cb.value),
-            budget: document.getElementById('budget').value,
-            message: document.getElementById('message').value
-        };
-
-        fetch('https://hook.eu2.make.com/jn1h0e92jklb7jr1ciy8cm7pbx7uxlno', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        })
-        .then(() => {
-            submitBtn.classList.remove('loading');
-            Array.from(leadForm.children).forEach(child => {
-                if (child.id !== 'form-success') child.style.display = 'none';
+            input.addEventListener('blur', function() {
+                const empty = this.hasAttribute('required') && !this.value.trim();
+                const badEmail = this.type === 'email' && this.value.trim() && !isValidEmail(this.value);
+                if (empty || badEmail) {
+                    markInvalid(this);
+                } else {
+                    clearInvalid(this);
+                }
             });
-            successMsg.classList.remove('hidden');
-            // Announce success to screen readers
-            successMsg.setAttribute('role', 'alert');
-        })
-        .catch(() => {
-            submitBtn.classList.remove('loading');
-            alert('Something went wrong. Please try again.');
+
+            input.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    clearInvalid(this);
+                }
+            });
         });
-    });
+
+        leadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Validate required fields and email format
+            let isValid = true;
+            let firstInvalid = null;
+            inputs.forEach(input => {
+                const empty = input.hasAttribute('required') && !input.value.trim();
+                const badEmail = input.type === 'email' && input.value.trim() && !isValidEmail(input.value);
+                if (empty || badEmail) {
+                    markInvalid(input);
+                    isValid = false;
+                    if (!firstInvalid) firstInvalid = input;
+                }
+            });
+
+            if (!isValid) {
+                // Shake animation for invalid form
+                leadForm.style.animation = 'none';
+                leadForm.offsetHeight; // Trigger reflow
+                leadForm.style.animation = 'shake 0.5s ease';
+                if (firstInvalid) firstInvalid.focus();
+                return;
+            }
+
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: emailInput.value,
+                companyName: document.getElementById('companyName').value,
+                service: Array.from(document.querySelectorAll('input[name="service"]:checked')).map(cb => cb.value),
+                budget: document.getElementById('budget').value,
+                message: document.getElementById('message').value
+            };
+
+            fetch('https://hook.eu2.make.com/jn1h0e92jklb7jr1ciy8cm7pbx7uxlno', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then((res) => {
+                // fetch only rejects on network errors, so surface HTTP errors explicitly
+                if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
+                submitBtn.classList.remove('loading');
+                Array.from(leadForm.children).forEach(child => {
+                    if (child.id !== 'form-success') child.style.display = 'none';
+                });
+                successMsg.classList.remove('hidden');
+                // Move focus to the success message for screen reader / keyboard users
+                successMsg.setAttribute('tabindex', '-1');
+                successMsg.focus();
+            })
+            .catch(() => {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                alert('Something went wrong. Please try again.');
+            });
+        });
+    }
 
     // Add shake animation dynamically
     const style = document.createElement('style');
@@ -284,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* --- 10. Neural Network Canvas Animation --- */
     const canvas = document.getElementById('neural-canvas');
-    if (canvas) {
+    if (canvas && !prefersReducedMotion) {
         const ctx = canvas.getContext('2d');
         let width, height;
         let particles = [];
@@ -302,8 +351,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         window.addEventListener('resize', () => {
-            resizeCanvas();
-            initParticles();
+            clearTimeout(canvas._resizeTimer);
+            canvas._resizeTimer = setTimeout(() => {
+                resizeCanvas();
+                initParticles();
+            }, 200);
         });
 
         class Particle {
@@ -408,16 +460,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* --- 12. Subtle Parallax on Scroll --- */
     const heroVisual = document.querySelector('.hero-visual');
-    if (heroVisual) {
+    const hero = document.querySelector('.hero');
+    if (heroVisual && hero && !prefersReducedMotion) {
         let ticking = false;
+        let heroHeight = hero.offsetHeight;
+        window.addEventListener('resize', () => { heroHeight = hero.offsetHeight; }, { passive: true });
         window.addEventListener('scroll', () => {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
                     const scrolled = window.pageYOffset;
-                    const heroHeight = document.querySelector('.hero').offsetHeight;
                     if (scrolled < heroHeight) {
-                        const parallax = scrolled * 0.15;
-                        heroVisual.style.transform = `translateY(${parallax}px)`;
+                        heroVisual.style.transform = `translateY(${scrolled * 0.15}px)`;
                     }
                     ticking = false;
                 });
@@ -427,45 +480,74 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* --- 11. Legal Modals --- */
-    const closeBtns = document.querySelectorAll('.close-modal');
+    let lastFocusedBeforeModal = null;
+
+    function openModal(modal) {
+        lastFocusedBeforeModal = document.activeElement;
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        const closeBtn = modal.querySelector('.close-modal');
+        if (closeBtn) closeBtn.focus();
+    }
+
+    function closeModal(modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+        // Restore focus to the element that opened the modal
+        if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+            lastFocusedBeforeModal.focus();
+        }
+        lastFocusedBeforeModal = null;
+    }
 
     document.querySelectorAll('.legal-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const modal = document.getElementById(`modal-${link.getAttribute('data-modal')}`);
-            if (modal) {
-                modal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-                modal.querySelector('.close-modal').focus();
-            }
+            if (modal) openModal(modal);
         });
     });
 
-    closeBtns.forEach(btn => {
+    document.querySelectorAll('.close-modal').forEach(btn => {
         btn.addEventListener('click', () => {
             const modal = btn.closest('.modal');
-            modal.classList.remove('show');
-            document.body.style.overflow = '';
+            if (modal) closeModal(modal);
         });
     });
 
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) {
-            e.target.classList.remove('show');
-            document.body.style.overflow = '';
+            closeModal(e.target);
         }
     });
 
-    // Close modal on Escape key
+    // Keyboard handling: Escape closes, Tab is trapped within an open modal
     document.addEventListener('keydown', (e) => {
+        const openModalEl = document.querySelector('.modal.show');
+
         if (e.key === 'Escape') {
-            document.querySelectorAll('.modal.show').forEach(modal => {
-                modal.classList.remove('show');
-                document.body.style.overflow = '';
-            });
+            if (openModalEl) closeModal(openModalEl);
             // Also close mobile menu
             if (navLinks.classList.contains('mobile-active')) {
                 closeMobileMenu();
+            }
+            return;
+        }
+
+        if (e.key === 'Tab' && openModalEl) {
+            const focusable = openModalEl.querySelectorAll(
+                'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+            );
+            if (focusable.length === 0) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
             }
         }
     });
