@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
             message: document.getElementById('message').value
         };
 
-        fetch('https://hook.eu2.make.com/jn1h0e92jklb7jr1ciy8cm7pbx7uxlno', {
+        fetch('https://hook.eu2.make.com/abf445xi1yny8139v7kmrv9vslqe7vli', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
